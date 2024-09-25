@@ -6,6 +6,32 @@ STACK 100h
 DATASEG
 
 CODESEG
+proc tile
+	pusha
+	mov ax,320*8
+	mul si
+	mov si,ax
+	shl bx,3
+	add bx,8
+	mov ax, 30
+	A:
+		
+		mov cx,8
+		sub bx,8
+	B:
+		mov [byte es:bx+si],15
+		inc bx
+		loop B
+	inc dx 
+	cmp dx,8 
+	je ET
+	add si,320
+	jmp A
+	ET:
+		popa
+		ret 
+endp
+
 
 start:
 	mov ax, @data
@@ -14,21 +40,15 @@ start:
 	mov ax, 13h
 	int 10h
 	mov ax, 0a000h
-	mov es,ax
-	mov dx,0
-	mov bx,10
-	S:
-	mov cx,10
-	add bx,dx
-	mov di,10
-	p:
+	mov es, ax
+	
+	mov bx,1
+	mov si,0
+	call tile 
 
-	mov [byte es:bx], 15
-	dec bx
-	loop p
-	add dx,320
-	cmp di,0
-	jne s 
+
+	w:
+	jmp w
 exit:
 	mov ax, 4c00h
 	int 21h
