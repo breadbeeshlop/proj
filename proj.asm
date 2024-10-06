@@ -92,7 +92,7 @@ start:
 	
 	call reader
 	
-
+=sassadasda
 
 
 
